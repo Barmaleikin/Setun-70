@@ -356,7 +356,7 @@ int execute(int ko) {
 		break;
 
 	case 2:
-		op_Macro(ko);
+		op_macro(ko);
 		break;
 
 	default:
