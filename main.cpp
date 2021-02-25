@@ -47,91 +47,294 @@ static struct {
 } m_context;
 
 void op_basic(int ko) {
+
+	enum opBasic { LST, COT, XNN, DOW, BRT, JMP, T_sub_E, E_setto_T, T_add_E,
+               CLT, CET, CGT, JSR, R_setto_T, C_setto_T, T_setto_W, YFT, W_setto_S,
+               SMT, Y_setto_T, SAT, S_sub_T, TDN, S_add_T, LBT, L_mul_T, LHT };
+
+	const string nameBasic[] = { "LST", "COT", "XNN", "DOW", "BRT", "JMP", "T-E", "E=T", "T+E",
+                         "CLT", "CET", "CGT", "JSR", "R=T", "C=T", "T=W", "YFT", "W=S",
+                         "SMT", "Y=T", "SAT", "S-T", "TDN", "S+T", "LBT", "L*T", "LHT" };
 	
-	/*
-	B1 -- LST
- 	B2 -- COT
-	B3 -- XNN
+	switch (ko) {
 
-	В4 -- Е-1
-	B5 -- E=0
-	B6 -- Е+1
+	    case opBasic::LST:
+		break;
 
- 	B7 -- T-E
- 	B8 -- E=T
- 	В9 -- Т+E
+	    case opBasic::COT:
+		break;
 
-	B10 -- CLT
-	B11 -- СЕТ
-	B12 -- CGT
+	    case opBasic::XNN:
+		break;
 
-	B13 -- T=C
-	B14 -- R=T
-	B15 -- C=T
-	B16 -- T=W
-	B17 -- YFT
+	    case opBasic::DOW:
+		break;
 
-	B18 -- W=S
-	В19 -- SMT
-	B20 -- Y=T
-	B21 -- SAT
-	B22 -- S-T
-	B23 -- TDN
-	В24 -- S+T
-	B25 -- LBT
-	B26 -- L*T
-	B27 -- LHT
-	*/
+	    case opBasic::BRT:
+		break;
+
+	    case opBasic::JMP:
+		break;
+
+	    case opBasic::T_sub_E:
+		break;
+
+	    case opBasic::E_setto_T:
+		break;
+
+	    case opBasic::T_add_E:
+		break;
+
+	    case opBasic::CLT:
+		break;
+
+	    case opBasic::CET:
+		break;
+
+	    case opBasic::CGT:
+		break;
+
+	    case opBasic::JSR:
+		break;
+
+	    case opBasic::R_setto_T:
+		break;
+
+	    case opBasic::C_setto_T:
+		break;
+
+	    case opBasic::T_setto_W:
+		break;
+
+	    case opBasic::YFT:
+		break;
+
+	    case opBasic::W_setto_S:
+		break;
+
+	    case opBasic::SMT:
+		break;
+
+	    case opBasic::Y_setto_T:
+		break;
+
+	    case opBasic::SAT:
+		break;
+
+	    case opBasic::S_sub_T:
+		break;
+
+	    case opBasic::TDN:
+		break;
+
+	    case opBasic::S_add_T:
+		break;
+
+	    case opBasic::LBT:
+		break;
+
+	    case opBasic::L_mul_T:
+		break;
+
+	    case opBasic::LHT:
+		break;
+	}
 	
 	cout << " - [BASIC] " << endl;
 }
 
 void op_macro(int ko) {
 	
-	/**/
+	enum opMacro {
+	    MACRO1, MACRO2, MACRO3, MACRO4, MACRO5, MACRO6, MACRO7, MACRO8, MACRO9,
+	    MACRO10, MACRO11, MACRO12, MACRO13, MACRO14, MACRO15, MACRO16, MACRO17, MACRO18,
+	    MACRO19, MACRO20, MACRO21, MACRO22, MACRO23, MACRO24, MACRO25, MACRO26, MACRO27
+	};
+
+	const string nameMacro[] = { "MACRO 1", "MACRO 2", "MACRO 3", "MACRO 4", "MACRO 5", "MACRO 6", "MACRO 7", "MACRO 8", "MACRO 9",
+				"MACRO 10", "MACRO 11", "MACRO 12", "MACRO 13", "MACRO 14", "MACRO 15", "MACRO 16", "MACRO 17", "MACRO 18",
+				"MACRO 19", "MACRO 20", "MACRO 21", "MACRO 22", "MACRO 23", "MACRO 24", "MACRO 25", "MACRO 26", "MACRO 27" };
+
+	    switch (ko) {
+
+	    case opMacro::MACRO1:
+		break;
+
+	    case opMacro::MACRO2:
+		break;
+
+	    case opMacro::MACRO3:
+		break;
+
+	    case opMacro::MACRO4:
+		break;
+
+	    case opMacro::MACRO5:
+		break;
+
+	    case opMacro::MACRO6:
+		break;
+
+	    case opMacro::MACRO7:
+		break;
+
+	    case opMacro::MACRO8:
+		break;
+
+	    case opMacro::MACRO9:
+		break;
+
+	    case opMacro::MACRO10:
+		break;
+
+	    case opMacro::MACRO11:
+		break;
+
+	    case opMacro::MACRO12:
+		break;
+
+	    case opMacro::MACRO13:
+		break;
+
+	    case opMacro::MACRO14:
+		break;
+
+	    case opMacro::MACRO15:
+		break;
+
+	    case opMacro::MACRO16:
+		break;
+
+	    case opMacro::MACRO17:
+		break;
+
+	    case opMacro::MACRO18:
+		break;
+
+	    case opMacro::MACRO19:
+		break;
+
+	    case opMacro::MACRO20:
+		break;
+
+	    case opMacro::MACRO21:
+		break;
+
+	    case opMacro::MACRO22:
+		break;
+
+	    case opMacro::MACRO23:
+		break;
+
+	    case opMacro::MACRO24:
+		break;
+
+	    case opMacro::MACRO25:
+		break;
+
+	    case opMacro::MACRO26:
+		break;
+
+	    case opMacro::MACRO27:
+		break;
+	    }
 	
 	cout << " - [MACRO] " << endl;
 }
 
 void op_system(int ko) {
 
-	/*
-	 S1 -- COPYGl
-	 S2 -- COPYG2
-	 S3 -- COPYG3
+	enum opSupervisor { CG1, CG2, CG3, CF1, CF2, CF3, LQ1, LQ2, LQ3,
+                    CP, EXP, LP, CMC, RMC, LMC, LH1, LH2, LH3,
+                    LU1, LU2, LU3, LF1, LF2, LF3, LG1, LG2, LG3};
 
-	 S4 -- COPYF1
-	 S5 -- COPYF2
-	 S6 -- COPYF3
+	const string nameSpecial[] = { "COPYG1", "COPYG2", "COPYG3", "COPYF1", "COPYF2", "COPYF3", "LOADQ1", "LOADQ2", "LOADQ3",
+                               "COPYP", "EXCHP", "LOADP", "COPYMC", "RETNMC", "LOADMC", "LOADH1", "LOADH2", "LOADH3",
+                               "LOADU1", "LOADU2", "LOADU3", "LOADF1", "LOADF2", "LOADF3", "LOADG1", "LOADG2", "LOADG3" };
+	
+	switch (ko) {
 
-	 S7 -- LOADQ1
-	 S8 -- LOADQ2
-	 S9 -- LOADQ3
+	    case opSupervisor::CG1:
+		break;
 
-	S10 -- COPYP
-	S11 -- EXCHP
-	S12 -- LOADP
+	    case opSupervisor::CG2:
+		break;
 
-	S13 -- COPYMC
-	S14 -- RETNMC
-	S15 -- LOADMC
+	    case opSupervisor::CG3:
+		break;
 
-	S16 -- LOADH1
-	S17 -- LOADH2
-	S18 -- LOADH3
+	    case opSupervisor::CF1:
+		break;
 
-	S19 -- LOADU1
-	S20 -- LOADU2
-	S21 -- LOADU3
+	    case opSupervisor::CF2:
+		break;
 
-	S22 -- LOADF1
-	S23 -- LOADF2
-	S24 -- LOADF3
+	    case opSupervisor::CF3:
+		break;
 
-	S25 -- LOADG1
-	S26 -- LOADG2
-	S27 -- LOADG3
-	*/
+	    case opSupervisor::LQ1:
+		break;
+
+	    case opSupervisor::LQ2:
+		break;
+
+	    case opSupervisor::LQ3:
+		break;
+
+	    case opSupervisor::CP:
+		break;
+
+	    case opSupervisor::EXP:
+		break;
+
+	    case opSupervisor::LP:
+		break;
+
+	    case opSupervisor::CMC:
+		break;
+
+	    case opSupervisor::RMC:
+		break;
+
+	    case opSupervisor::LMC:
+		break;
+
+	    case opSupervisor::LH1:
+		break;
+
+	    case opSupervisor::LH2:
+		break;
+
+	    case opSupervisor::LH3:
+		break;
+
+	    case opSupervisor::LU1:
+		break;
+
+	    case opSupervisor::LU2:
+		break;
+
+	    case opSupervisor::LU3:
+		break;
+
+	    case opSupervisor::LF1:
+		break;
+
+	    case opSupervisor::LF2:
+		break;
+
+	    case opSupervisor::LF3:
+		break;
+
+	    case opSupervisor::LG1:
+		break;
+
+	    case opSupervisor::LG2:
+		break;
+
+	    case opSupervisor::LG3:
+		break;
+	}
 	
 	cout << " - [SYSTEM] " << endl;
 }
@@ -149,11 +352,11 @@ int execute(int ko) {
 		break;
 
 	case 1:
-		op_basic(ko);
+		op_system(ko);
 		break;
 
 	case 2:
-		op_basic(ko);
+		op_Macro(ko);
 		break;
 
 	default:
