@@ -368,6 +368,7 @@ int execute(int ko) {
 }
 
 int fetch(void) {
+	m_context.opcode = 0;
 	return 0;
 }
 
