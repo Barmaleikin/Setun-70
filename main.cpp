@@ -1,5 +1,24 @@
 #include <iostream>
+#include <iomanip>
+#include <string>
+#include <array>
+
 using namespace std;
+
+const int valPower = 364;
+struct anValue {
+    short valBinary = -364;
+    short valTrinary = 0;
+
+    std::string txtBinary = "0";
+    std::string txtTrinary = "0";
+
+    bool isZero = true;
+    bool isPositive = false;
+    bool isEven = false;
+} m_Val;
+anValue _tmp[valPower * 2 + 1];
+anValue* mArray = _tmp + valPower;
 
 /* ternary array f_storage[-1:1, -3280:3280, -40:40, 1:6],
                     -- память второго уровня.
