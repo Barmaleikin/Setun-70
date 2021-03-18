@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const int valPower = 364;
+const int valRange = 364;
 struct anValue {
     short valBinary = -364;
     short valTrinary = 0;
@@ -17,8 +17,8 @@ struct anValue {
     bool isPositive = false;
     bool isEven = false;
 } m_Val;
-anValue _tmp[valPower * 2 + 1];
-anValue* mArray = _tmp + valPower;
+anValue _tmp[valRange * 2 + 1];
+anValue* mArray = _tmp + valRange;
 
 /* ternary array f_storage[-1:1, -3280:3280, -40:40, 1:6],
                     -- память второго уровня.
