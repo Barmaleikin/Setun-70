@@ -65,6 +65,10 @@ static struct {
 	unsigned int opcode : 2;
 } m_context;
 
+enum mMachineMode {
+	mm_BASIC, mm_SYSTEM, mm_USER
+};
+
 void op_basic(int ko) {
 
 	enum opBasic { LST, COT, XNN, DOW, BRT, JMP, T_sub_E, E_setto_T, T_add_E,
@@ -365,16 +369,21 @@ void process(int ko) {
 }
 
 int execute(int ko) {
+
+	enum opcodes {
+		mCodeBasic, mCodeSystem, mCodeMacro
+	};
+
 	switch (m_context.opcode) {
-	case 0:
+	case opcodes::mCodeBasic:
 		op_basic(ko);
 		break;
 
-	case 1:
+	case opcodes::mCodeSystem:
 		op_system(ko);
 		break;
 
-	case 2:
+	case opcodes::mCodeMacro:
 		op_macro(ko);
 		break;
 
