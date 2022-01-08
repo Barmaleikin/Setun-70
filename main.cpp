@@ -111,8 +111,8 @@ void op_basic(int ko) {
 	};
 
 	const string nameBasic[] = { "LST", "COT", "XNN", "DOW", "BRT", "JMP", "T-E", "E=T", "T+E",
-						 "CLT", "CET", "CGT", "JSR", "R=T", "C=T", "T=W", "YFT", "W=S",
-						 "SMT", "Y=T", "SAT", "S-T", "TDN", "S+T", "LBT", "L*T", "LHT" };
+					"CLT", "CET", "CGT", "JSR", "R=T", "C=T", "T=W", "YFT", "W=S",
+					"SMT", "Y=T", "SAT", "S-T", "TDN", "S+T", "LBT", "L*T", "LHT" };
 
 	switch (ko) {
 
@@ -210,8 +210,8 @@ void op_macro(int ko) {
 	};
 
 	const string nameMacro[] = { "MACRO 1", "MACRO 2", "MACRO 3", "MACRO 4", "MACRO 5", "MACRO 6", "MACRO 7", "MACRO 8", "MACRO 9",
-				"MACRO 10", "MACRO 11", "MACRO 12", "MACRO 13", "MACRO 14", "MACRO 15", "MACRO 16", "MACRO 17", "MACRO 18",
-				"MACRO 19", "MACRO 20", "MACRO 21", "MACRO 22", "MACRO 23", "MACRO 24", "MACRO 25", "MACRO 26", "MACRO 27" };
+					"MACRO 10", "MACRO 11", "MACRO 12", "MACRO 13", "MACRO 14", "MACRO 15", "MACRO 16", "MACRO 17", "MACRO 18",
+					"MACRO 19", "MACRO 20", "MACRO 21", "MACRO 22", "MACRO 23", "MACRO 24", "MACRO 25", "MACRO 26", "MACRO 27" };
 
 	switch (ko) {
 
@@ -309,8 +309,8 @@ void op_system(int ko) {
 	};
 
 	const string nameSpecial[] = { "COPYG1", "COPYG2", "COPYG3", "COPYF1", "COPYF2", "COPYF3", "LOADQ1", "LOADQ2", "LOADQ3",
-							   "COPYP", "EXCHP", "LOADP", "COPYMC", "RETNMC", "LOADMC", "LOADH1", "LOADH2", "LOADH3",
-							   "LOADU1", "LOADU2", "LOADU3", "LOADF1", "LOADF2", "LOADF3", "LOADG1", "LOADG2", "LOADG3" };
+					"COPYP", "EXCHP", "LOADP", "COPYMC", "RETNMC", "LOADMC", "LOADH1", "LOADH2", "LOADH3",
+					"LOADU1", "LOADU2", "LOADU3", "LOADF1", "LOADF2", "LOADF3", "LOADG1", "LOADG2", "LOADG3" };
 
 	switch (ko) {
 
