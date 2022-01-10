@@ -20,15 +20,15 @@ struct anValue {
 	bool isEven = false;
 } m_Val;
 
-anValue _tmp[valRange * 2 + 1];
-anValue* mArray = _tmp + valRange;
+anValue _tmp[valFullRange];
+anValue* mValArray = &_tmp[valHalfRange];
 
-int _tmp_ram[pageRange * 2 + 1];
-int* mRamPage = _tmp_ram + pageRange;
+int _tmp_ram[pageFullRange];
+int* mRamPage = &_tmp_ram[pageHalfRange];
 int* pageRAM[9] = {0};
 
-int _tmp_rom[pageRange * 2 + 1];
-int* mRomPage = _tmp_rom + pageRange;
+int _tmp_rom[pageFullRange];
+int* mRomPage = &_tmp_rom[pageHalfRange];
 int* pageROM[18] = {0};
 
 /* ternary array f_storage[-1:1, -3280:3280, -40:40, 1:6],
@@ -437,6 +437,14 @@ int fetch(void) {
 	return 0;
 }
 
+void prepareLookuptable(void) {
+	short currentValue = -valHalfRange;
+	for (int i = 0; i < valFullRange; i ++) {
+		mValArray[i].valBinary = currentValue;
+		currentValue++;
+	}
+}
+
 int main(int argc, char* argv[]) {
 
 	if (argc > 1) {
@@ -451,6 +459,8 @@ int main(int argc, char* argv[]) {
 		cout << " - Filename: " << argv[0] << endl << endl;
 	}
 
+	prepareLookuptable();
+	
 	m_state_running = true;
 	while (m_state_running) {
 		process(execute(fetch()));
