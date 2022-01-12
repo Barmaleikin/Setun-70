@@ -20,6 +20,22 @@ struct anValue {
 	bool isEven = false;
 } m_Val;
 
+struct mRegisters {
+	anValue* reg_c;
+	anValue* part_c1;
+	anValue* part_ca;
+	anValue* part_ch;
+	anValue* reg_k;
+	anValue* part_ka;
+	anValue* ptr_p;
+	anValue* ptr_T;
+	anValue* ptr_t;
+	anValue* ptr_S;
+	anValue* reg_e;
+	anValue* reg_R;
+	anValue* reg_Y;
+};
+
 anValue _tmp[valFullRange];
 anValue* mValArray = &_tmp[valHalfRange];
 
