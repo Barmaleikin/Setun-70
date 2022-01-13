@@ -141,12 +141,15 @@ void op_basic(int ko) {
 	case opBasic::XNN:
 		break;
 
+//	case opBasic::E_minus_1:
 	case opBasic::DOW:
 		break;
 
+//	case opBasic::E_setto_0:
 	case opBasic::BRT:
 		break;
 
+//	case opBasic::E_plus_1:
 	case opBasic::JMP:
 		break;
 
@@ -168,6 +171,7 @@ void op_basic(int ko) {
 	case opBasic::C_greaterthan_T:
 		break;
 
+//	case opBasic::T_setto_C:
 	case opBasic::JSR:
 		break;
 
