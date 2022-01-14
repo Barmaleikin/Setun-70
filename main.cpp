@@ -2,11 +2,16 @@
 #include <iomanip>
 #include <string>
 #include <array>
+#include <bitset>
 
 using namespace std;
 
-const int valRange = 364;
-const int pageRange = 40;
+const short valHalfRange = 364;
+const short valLowBoundary = -364;
+const short valHighBoundary = valHalfRange;
+const short valFullRange = valHalfRange * 2 + 1;
+const short pageHalfRange = 40;
+const short pageFullRange = pageHalfRange * 2 + 1;
 
 struct anValue {
 	short valBinary = -364;
@@ -20,31 +25,50 @@ struct anValue {
 	bool isEven = false;
 } m_Val;
 
-struct mRegisters {
-	anValue* reg_c;
-	anValue* part_c1;
-	anValue* part_ca;
-	anValue* part_ch;
-	anValue* reg_k;
-	anValue* part_ka;
-	anValue* ptr_p;
-	anValue* ptr_T;
-	anValue* ptr_t;
-	anValue* ptr_S;
-	anValue* reg_e;
-	anValue* reg_R;
-	anValue* reg_Y;
+anValue _tmp[valFullRange];
+anValue* mValArray = &_tmp[valHalfRange - 1];
+
+static struct mRegisters {
+	anValue* reg_c = &mValArray[0];
+	anValue* part_c1 = reg_c;
+	anValue* part_ca = reg_c;
+	anValue* part_ch = reg_c;
+	anValue* reg_k = &mValArray[0];
+	anValue* part_k1 = reg_k;
+	anValue* part_ka = reg_k;
+	anValue* ptr_p = &mValArray[0];
+	anValue* ptr_T = &mValArray[0];
+	anValue* ptr_t = &mValArray[0];
+	anValue* ptr_S = &mValArray[0];
+	anValue* reg_e = &mValArray[0];
+	anValue* reg_R = &mValArray[0];
+	anValue* reg_Y = &mValArray[0];
+} m_Reg;
+
+static bool m_state_running = false;
+
+static struct {
+	bool m_exception_rised = false;
+
+	unsigned int programmPos = 0;
+	unsigned int programmPage = 0;
+
+	unsigned int stackPage = 0;
+	unsigned int stackPos = 0;
+
+	unsigned int opcode : 2;
+} m_context;
+
+enum mMachineMode {
+	m_ModeBASIC, m_ModeSYSTEM, m_ModeUSER
 };
 
-anValue _tmp[valFullRange];
-anValue* mValArray = &_tmp[valHalfRange];
-
 int _tmp_ram[pageFullRange];
-int* mRamPage = &_tmp_ram[pageHalfRange];
+int* mRamPage = &_tmp_ram[pageHalfRange-1];
 int* pageRAM[9] = {0};
 
 int _tmp_rom[pageFullRange];
-int* mRomPage = &_tmp_rom[pageHalfRange];
+int* mRomPage = &_tmp_rom[pageHalfRange-1];
 int* pageROM[18] = {0};
 
 /* ternary array f_storage[-1:1, -3280:3280, -40:40, 1:6],
@@ -77,24 +101,6 @@ int* pageROM[18] = {0};
 					-- триггер, синхронизирующий работу устройста ввода-вывода i-й грууппы.
 					machine_state [1:1];
 					-- триггер состояния машины.*/
-
-static bool m_state_running = false;
-
-static struct {
-	bool m_exception_rised = false;
-
-	unsigned int programmPos = 0;
-	unsigned int programmPage = 0;
-
-	unsigned int stackPage = 0;
-	unsigned int stackPos = 0;
-
-	unsigned int opcode : 2;
-} m_context;
-
-enum mMachineMode {
-	m_ModeBASIC, m_ModeSYSTEM, m_ModeUSER
-};
 
 int address_next(int index) {
 	return 0;
