@@ -483,6 +483,11 @@ int main(int argc, char* argv[]) {
 	else {
 		cout << " - No arguments provided" << endl;
 		cout << " - Filename: " << argv[0] << endl << endl;
+		cout << " - Entering ineractive debug mode. Available commands:" << endl;
+		cout << "   [G] Run program" << endl;
+		cout << "   [M] Show memory dump" << endl;
+		cout << "   [R] Show registers" << endl;
+		cout << "   [S] Step" << endl << endl;
 	}
 
 	prepareLookuptable();
