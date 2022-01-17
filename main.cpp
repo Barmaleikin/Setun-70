@@ -490,7 +490,8 @@ int main(int argc, char* argv[]) {
 		std::cout << "   [M] Show memory dump" << endl;
 		std::cout << "   [R] Show registers" << endl;
 		std::cout << "   [S] Step" << endl;
-		std::cout << "   [X] Exit" << endl << endl;
+		std::cout << "   [X] Exit" << endl << endl << "> ";
+
 
 		while (mParse) {
 			std::string input = "";
@@ -504,7 +505,7 @@ int main(int argc, char* argv[]) {
 			}
 
 			if (input.compare("M") == 0) {
-				cout << input << endl;
+				cout << input << endl << endl << ">" ;
 			}
 
 			if (input.compare("R") == 0) {
@@ -524,16 +525,19 @@ int main(int argc, char* argv[]) {
 
 				cout << "  e : " << m_Reg.reg_e->txtTrinary << endl;
 				cout << "  R : " << m_Reg.reg_R->txtTrinary << endl;
-				cout << "  Y : " << m_Reg.reg_Y->txtTrinary << endl << endl << ">";
+				cout << "  Y : " << m_Reg.reg_Y->txtTrinary << endl << endl << "> ";
 			}
 
 			if (input.compare("S") == 0) {
-				cout << input << endl;
+				cout << endl;
+				process(execute(fetch()));
+				cout << endl << "> ";
 			}
 
 			if (input.compare("X") == 0) {
 				mParse = false;
 			}
+		}
 		}
 
 	return 0;
