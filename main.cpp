@@ -508,7 +508,23 @@ int main(int argc, char* argv[]) {
 			}
 
 			if (input.compare("R") == 0) {
-				cout << input << endl;
+				cout << endl << "  c : " << m_Reg.reg_c->txtTrinary << endl;
+				cout << "  c1: " << m_Reg.part_c1->txtTrinary << endl;
+				cout << "  ca: " << m_Reg.part_ca->txtTrinary << endl;
+				cout << "  ch: " << m_Reg.part_ch->txtTrinary << endl;
+
+				cout << "  k : " << m_Reg.reg_k->txtTrinary << endl;
+				cout << "  k1: " << m_Reg.part_k1->txtTrinary << endl;
+				cout << "  ka: " << m_Reg.part_ka->txtTrinary << endl;
+
+				cout << "  p : " << m_Reg.ptr_p->txtTrinary << endl;
+				cout << "  T : " << m_Reg.ptr_T->txtTrinary << endl;
+				cout << "  t : " << m_Reg.ptr_t->txtTrinary << endl;
+				cout << "  S : " << m_Reg.ptr_S->txtTrinary << endl;
+
+				cout << "  e : " << m_Reg.reg_e->txtTrinary << endl;
+				cout << "  R : " << m_Reg.reg_R->txtTrinary << endl;
+				cout << "  Y : " << m_Reg.reg_Y->txtTrinary << endl << endl << ">";
 			}
 
 			if (input.compare("S") == 0) {
