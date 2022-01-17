@@ -481,21 +481,44 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	else {
-		cout << " - No arguments provided" << endl;
-		cout << " - Filename: " << argv[0] << endl << endl;
-		cout << " - Entering ineractive debug mode. Available commands:" << endl;
-		cout << "   [G] Run program" << endl;
-		cout << "   [M] Show memory dump" << endl;
-		cout << "   [R] Show registers" << endl;
-		cout << "   [S] Step" << endl << endl;
-	}
+		bool mParse = true;
 
-	prepareLookuptable();
-	
-	m_state_running = true;
-	while (m_state_running) {
-		process(execute(fetch()));
-	}
+		std::cout << " - No arguments provided" << endl;
+		std::cout << " - Filename: " << argv[0] << endl << endl;
+		std::cout << " - Entering ineractive debug mode. Available commands:" << endl;
+		std::cout << "   [G] Run program" << endl;
+		std::cout << "   [M] Show memory dump" << endl;
+		std::cout << "   [R] Show registers" << endl;
+		std::cout << "   [S] Step" << endl;
+		std::cout << "   [X] Exit" << endl << endl;
+
+		while (mParse) {
+			std::string input = "";
+			getline(std::cin, input);
+			if (input.compare("G") == 0) {
+				cout << input << endl;
+				m_state_running = true;
+				while (m_state_running) {
+					process(execute(fetch()));
+				}
+			}
+
+			if (input.compare("M") == 0) {
+				cout << input << endl;
+			}
+
+			if (input.compare("R") == 0) {
+				cout << input << endl;
+			}
+
+			if (input.compare("S") == 0) {
+				cout << input << endl;
+			}
+
+			if (input.compare("X") == 0) {
+				mParse = false;
+			}
+		}
 
 	return 0;
 }
