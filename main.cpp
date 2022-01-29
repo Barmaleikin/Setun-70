@@ -191,8 +191,10 @@ void op_basic(int ko) {
 	case opBasic::T_setto_W:
 		break;
 
-	case opBasic::YFT:
+	case opBasic::YFT: {
+		m_Reg.reg_Y = &mValArray[0];
 		break;
+	}
 
 	case opBasic::W_setto_S:
 		break;
@@ -200,25 +202,44 @@ void op_basic(int ko) {
 	case opBasic::SMT:
 		break;
 
-	case opBasic::Y_setto_T:
+	case opBasic::Y_setto_T: {
+		anValue top = pop();
+		m_Reg.reg_Y = &mValArray[top.valBinary];
 		break;
+	}
 
 	case opBasic::SAT:
 		break;
 
-	case opBasic::S_sub_T:
+	case opBasic::S_sub_T: {
+		anValue top = pop();
+		anValue subtop = pop();
+		short result = top.valBinary - subtop.valBinary;
+		if (abs(result) < valLowBoundary) {
+			result += 364;
+		}
+		push(mValArray[result]);
 		break;
+	}
 
 	case opBasic::TDN: {
 		anValue top = pop();
-		int temp = top.valBinary;
+		short temp = top.valBinary;
 		temp = -temp;
 		push(mValArray[temp]);
 		break;
 	}
 
-	case opBasic::S_add_T:
+	case opBasic::S_add_T: {
+		anValue top = pop();
+		anValue subtop = pop();
+		short result = top.valBinary + subtop.valBinary;
+		if (abs(result) > valHighBoundary) {
+			result -= 364;
+		}
+		push(mValArray[result]);
 		break;
+	}
 
 	case opBasic::LBT:
 		break;
