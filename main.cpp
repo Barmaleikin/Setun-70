@@ -110,16 +110,17 @@ int address_prev(int index) {
 	return 0;
 }
 
-void push(int value) {
+void push(anValue value) {
 }
 
-int peek(void) {
-	int value = 0; // address;
+anValue peek(void) {
+	anValue value;
+	value = mValArray[364]; // address;
 	return value;
 }
 
-int pop(void) {
-	int value = peek();
+anValue pop(void) {
+	anValue value = peek();
 	//address_prev();
 	return value;
 }
@@ -208,8 +209,13 @@ void op_basic(int ko) {
 	case opBasic::S_sub_T:
 		break;
 
-	case opBasic::TDN:
+	case opBasic::TDN: {
+		anValue top = pop();
+		int temp = top.valBinary;
+		temp = -temp;
+		push(mValArray[temp]);
 		break;
+	}
 
 	case opBasic::S_add_T:
 		break;
