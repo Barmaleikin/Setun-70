@@ -19,6 +19,8 @@ struct anValue {
 
 	std::string txtBinary = "0";
 	std::string txtTrinary = "0";
+	std::string txtNonary = "None";
+	std::string txtDecimal = "None";
 
 	bool isZero = true;
 	bool isPositive = false;
@@ -492,7 +494,7 @@ int fetch(void) {
 
 void prepareLookuptable(void) {
 	short currentValue = -valHalfRange;
-	for (int i = 0; i < valFullRange; i ++) {
+	for (int i = 0; i < valFullRange+1; i ++) {
 		mValArray[i].valBinary = currentValue;
 		currentValue++;
 	}
