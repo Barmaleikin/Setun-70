@@ -493,11 +493,32 @@ int fetch(void) {
 }
 
 void prepareLookuptable(void) {
-	short currentValue = -valHalfRange;
-	for (int i = 0; i < valFullRange+1; i ++) {
+	short currentValue = (-valHalfRange);
+
+	std::cout << " Preparing number lookup table" << endl;
+
+	for (int i = valLowBoundary; i < valHighBoundary+1; i++) {
 		mValArray[i].valBinary = currentValue;
+		mValArray[i].isZero = (currentValue != 0) ? false : true;
+		mValArray[i].isPositive = (currentValue < 0 && currentValue != 0) ? false : true;
+		mValArray[i].isEven = (currentValue % 2 != 0) ? false : true;
+
+		std::stringstream ss;
+		ss << currentValue;
+		string str;
+		ss >> str;
+
+		mValArray[i].txtBinary = str;
+		mValArray[i].txtTrinary = str;
+		mValArray[i].txtNonary = str;
+		mValArray[i].txtDecimal = str;
+
+		std::cout << std::showpos << " Number: " << currentValue << "            \r";
+
 		currentValue++;
 	}
+
+	std::cout << endl << endl;
 }
 
 int main(int argc, char* argv[]) {
