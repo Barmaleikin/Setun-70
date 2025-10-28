@@ -309,7 +309,8 @@ fn main() {
 
     println!(" - No arguments provided");
     println!(" - Entering interactive debug mode. Available commands:");
-
+    showhelp();
+    
     loop {
         let input = match read_line_trimmed() {
             Some(s) => s,
