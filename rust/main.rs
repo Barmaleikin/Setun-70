@@ -46,26 +46,6 @@ impl fmt::Display for AnValue {
     }
 }
 
-struct Registers<'a> {
-    reg_c: &'a AnValue,
-    part_c1: &'a AnValue,
-    part_ca: &'a AnValue,
-    part_ch: &'a AnValue,
-
-    reg_k: &'a AnValue,
-    part_k1: &'a AnValue,
-    part_ka: &'a AnValue,
-
-    ptr_p: &'a AnValue,
-    ptr_t: &'a AnValue,
-    ptr_T: &'a AnValue,
-    ptr_S: &'a AnValue,
-
-    reg_e: &'a AnValue,
-    reg_R: &'a AnValue,
-    reg_Y: &'a AnValue,
-}
-
 #[derive(Default)]
 struct Context {
     m_exception_rised: bool,
@@ -73,7 +53,7 @@ struct Context {
     programm_page: usize,
     stack_page: usize,
     stack_pos: usize,
-    opcode: u8, // small field
+    opcode: u8,
 }
 
 enum MachineMode {
@@ -83,13 +63,9 @@ enum MachineMode {
 }
 
 struct VM {
-    // value table centered: index = v + VAL_HALF_RANGE
     values: Vec<AnValue>,
-
-    // simple stack implemented as indices into values
     stack: Vec<usize>,
 
-    // registers point into values by index
     reg_c: usize,
     part_c1: usize,
     part_ca: usize,
@@ -111,7 +87,6 @@ struct VM {
     m_state_running: bool,
     context: Context,
 
-    // RAM / ROM pages
     ram_page: Vec<i32>,
     rom_page: Vec<i32>,
     page_ram: [Option<Vec<i32>>; 9],
@@ -120,10 +95,8 @@ struct VM {
 
 impl VM {
     fn new() -> Self {
-        // allocate value table and initialize
         let mut values = vec![AnValue::default(); VAL_FULL_RANGE];
 
-        // fill table: map logical value v in [-VAL_HALF_RANGE..VAL_HALF_RANGE]
         for v in VAL_LOW_BOUNDARY..=VAL_HIGH_BOUNDARY {
             let idx = Self::val_index(v);
             let is_zero = v == 0;
@@ -144,7 +117,6 @@ impl VM {
             values[idx].is_even = is_even;
         }
 
-        // choose center index for initial registers (value 0)
         let center = Self::val_index(0);
 
         VM {
@@ -173,13 +145,10 @@ impl VM {
         }
     }
 
-    // map logical value to index in values vector
     fn val_index(v: i16) -> usize {
-        let off = (v as isize + VAL_HALF_RANGE as isize) as usize;
-        off
+        (v as isize + VAL_HALF_RANGE as isize) as usize
     }
 
-    // safe modular arithmetic in range [-VAL_HALF_RANGE..VAL_HALF_RANGE]
     fn wrap_value(v: i32) -> i16 {
         let n = VAL_FULL_RANGE as i32;
         let shifted = v + VAL_HALF_RANGE as i32;
@@ -187,7 +156,6 @@ impl VM {
         (wrapped - VAL_HALF_RANGE as i32) as i16
     }
 
-    // stack operations store indices into values
     fn push(&mut self, v: i16) {
         let idx = VM::val_index(v);
         self.stack.push(idx);
@@ -202,11 +170,13 @@ impl VM {
     }
 
     fn op_basic(&mut self, ko: usize) {
+        #[allow(non_camel_case_types)]
         enum OpBasic {
-            LST, COT, XNN, DOW, BRT, JMP, T_sub_E, E_setto_T, T_add_E,
+            LST = 0, COT, XNN, DOW, BRT, JMP, T_sub_E, E_setto_T, T_add_E,
             C_lessthan_T, C_equalto_T, C_greaterthan_T, JSR, R_setto_T, C_setto_T, T_setto_W, YFT, W_setto_S,
             SMT, Y_setto_T, SAT, S_sub_T, TDN, S_add_T, LBT, L_mul_T, LHT
         }
+
         let name_basic = [
             "LST","COT","XNN","DOW","BRT","JMP","T-E","E=T","T+E",
             "CLT","CET","CGT","JSR","R=T","C=T","T=W","YFT","W=S",
@@ -241,9 +211,7 @@ impl VM {
                 let result = VM::wrap_value(a as i32 + b as i32);
                 self.push(result);
             }
-            _ => {
-                // other ops not implemented yet
-            }
+            _ => { /* not implemented */ }
         }
 
         let name = name_basic.get(ko).unwrap_or(&"UNKNOWN");
@@ -328,7 +296,6 @@ fn read_line_trimmed() -> Option<String> {
 fn main() {
     let mut vm = VM::new();
 
-    // mimic argc==1 interactive mode
     println!(" - No arguments provided");
     println!(" - Entering interactive debug mode. Available commands:");
     println!("   [G] Run program");
@@ -351,9 +318,8 @@ fn main() {
                 vm.m_state_running = true;
                 while vm.m_state_running {
                     let ko = vm.fetch();
-                    vm.process(vm.execute(ko).ok().unwrap_or(0));
-                    // to avoid busy infinite loop we break here;
-                    // original code expected fetch/execute to change state
+                    let _ = vm.execute(ko);
+                    vm.process(0);
                     vm.m_state_running = false;
                 }
                 print!("> ");
@@ -361,7 +327,6 @@ fn main() {
             }
             "M" => {
                 println!("{}", input);
-                // placeholder: print small memory dump
                 println!(" RAM page center values:");
                 for i in 0..5 {
                     let v_idx = VM::val_index(i - 2);
@@ -379,14 +344,14 @@ fn main() {
             "S" => {
                 println!();
                 let ko = vm.fetch();
-                vm.process(vm.execute(ko).ok().unwrap_or(0));
+                let _ = vm.execute(ko);
+                vm.process(0);
                 println!();
                 print!("> ");
                 let _ = io::stdout().flush();
             }
             "X" => break,
             other => {
-                // ignore/echo
                 println!("Unrecognized command: {}", other);
                 print!("> ");
                 let _ = io::stdout().flush();
@@ -394,4 +359,3 @@ fn main() {
         }
     }
 }
-
