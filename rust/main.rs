@@ -294,6 +294,7 @@ fn read_line_trimmed() -> Option<String> {
 }
 
 fn showhelp() {
+    println!(" - Available commands:");
     println!("   [G] Run program");
     println!("   [H] Show command reference");
     println!("   [M] Show memory dump");
@@ -308,7 +309,7 @@ fn main() {
     let mut vm = VM::new();
 
     println!(" - No arguments provided");
-    println!(" - Entering interactive debug mode. Available commands:");
+    println!(" - Entering interactive debug mode");
     showhelp();
     
     loop {
