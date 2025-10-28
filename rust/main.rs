@@ -76,13 +76,13 @@ struct VM {
     part_ka: usize,
 
     ptr_p: usize,
-    ptr_T: usize,
+    ptr_top: usize,
     ptr_t: usize,
-    ptr_S: usize,
+    ptr_subtop: usize,
 
     reg_e: usize,
-    reg_R: usize,
-    reg_Y: usize,
+    reg_r: usize,
+    reg_y: usize,
 
     m_state_running: bool,
     context: Context,
@@ -130,12 +130,12 @@ impl VM {
             part_k1: center,
             part_ka: center,
             ptr_p: center,
-            ptr_T: center,
+            ptr_op: center,
             ptr_t: center,
-            ptr_S: center,
+            ptr_subtop: center,
             reg_e: center,
-            reg_R: center,
-            reg_Y: center,
+            reg_r: center,
+            reg_y: center,
             m_state_running: false,
             context: Context::default(),
             ram_page: vec![0; PAGE_FULL_RANGE],
@@ -172,9 +172,9 @@ impl VM {
     fn op_basic(&mut self, ko: usize) {
         #[allow(non_camel_case_types)]
         enum OpBasic {
-            LST = 0, COT, XNN, DOW, BRT, JMP, T_sub_E, E_setto_T, T_add_E,
-            C_lessthan_T, C_equalto_T, C_greaterthan_T, JSR, R_setto_T, C_setto_T, T_setto_W, YFT, W_setto_S,
-            SMT, Y_setto_T, SAT, S_sub_T, TDN, S_add_T, LBT, L_mul_T, LHT
+            lst = 0, cot, xnn, dow, brt, hmp, t_sub_e, e_setto_t, t_add_d,
+            c_lessthan_t, c_equalto_t, c_greaterthan_t, jsr, r_setto_t, c_setto_t, t_setto_w, yft, w_setto_s,
+            smt, y_setto_t, sat, s_sub_t, tdn, s_add_t, lbt, l_mul_t, lht
         }
 
         let name_basic = [
@@ -184,28 +184,28 @@ impl VM {
         ];
 
         match ko {
-            x if x == OpBasic::YFT as usize => {
-                self.reg_Y = Self::val_index(0);
+            x if x == OpBasic::yft as usize => {
+                self.reg_y = Self::val_index(0);
             }
-            x if x == OpBasic::Y_setto_T as usize => {
+            x if x == OpBasic::y_setto_t as usize => {
                 if let Some(top) = self.pop() {
                     let idx = Self::val_index(top.val_binary);
-                    self.reg_Y = idx;
+                    self.reg_y = idx;
                 }
             }
-            x if x == OpBasic::S_sub_T as usize => {
+            x if x == OpBasic::s_sub_t as usize => {
                 let a = self.pop().map(|v| v.val_binary).unwrap_or(0);
                 let b = self.pop().map(|v| v.val_binary).unwrap_or(0);
                 let result = VM::wrap_value(a as i32 - b as i32);
                 self.push(result);
             }
-            x if x == OpBasic::TDN as usize => {
+            x if x == OpBasic::tdn as usize => {
                 if let Some(top) = self.pop() {
                     let temp = -top.val_binary;
                     self.push(temp);
                 }
             }
-            x if x == OpBasic::S_add_T as usize => {
+            x if x == OpBasic::s_add_t as usize => {
                 let a = self.pop().map(|v| v.val_binary).unwrap_or(0);
                 let b = self.pop().map(|v| v.val_binary).unwrap_or(0);
                 let result = VM::wrap_value(a as i32 + b as i32);
@@ -273,13 +273,13 @@ impl VM {
         println!("  ka: {}", self.values[self.part_ka].txt_trinary);
         println!();
         println!("  p : {}", self.values[self.ptr_p].txt_trinary);
-        println!("  T : {}", self.values[self.ptr_T].txt_trinary);
+        println!("  T : {}", self.values[self.ptr_top].txt_trinary);
         println!("  t : {}", self.values[self.ptr_t].txt_trinary);
-        println!("  S : {}", self.values[self.ptr_S].txt_trinary);
+        println!("  S : {}", self.values[self.ptr_subtop].txt_trinary);
         println!();
         println!("  e : {}", self.values[self.reg_e].txt_trinary);
-        println!("  R : {}", self.values[self.reg_R].txt_trinary);
-        println!("  Y : {}", self.values[self.reg_Y].txt_trinary);
+        println!("  R : {}", self.values[self.reg_r].txt_trinary);
+        println!("  Y : {}", self.values[self.reg_y].txt_trinary);
         println!();
     }
 }
