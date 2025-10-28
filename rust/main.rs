@@ -293,11 +293,7 @@ fn read_line_trimmed() -> Option<String> {
     }
 }
 
-fn main() {
-    let mut vm = VM::new();
-
-    println!(" - No arguments provided");
-    println!(" - Entering interactive debug mode. Available commands:");
+fn showhelp() {
     println!("   [G] Run program");
     println!("   [M] Show memory dump");
     println!("   [R] Show registers");
@@ -305,6 +301,13 @@ fn main() {
     println!("   [X] Exit");
     print!("> ");
     let _ = io::stdout().flush();
+}
+
+fn main() {
+    let mut vm = VM::new();
+
+    println!(" - No arguments provided");
+    println!(" - Entering interactive debug mode. Available commands:");
 
     loop {
         let input = match read_line_trimmed() {
@@ -324,6 +327,9 @@ fn main() {
                 }
                 print!("> ");
                 let _ = io::stdout().flush();
+            }
+            "H" => {
+                showhelp();
             }
             "M" => {
                 println!("{}", input);
