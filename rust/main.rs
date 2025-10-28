@@ -295,6 +295,7 @@ fn read_line_trimmed() -> Option<String> {
 
 fn showhelp() {
     println!("   [G] Run program");
+    println!("   [H] Show command reference");
     println!("   [M] Show memory dump");
     println!("   [R] Show registers");
     println!("   [S] Step");
