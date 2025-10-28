@@ -332,6 +332,7 @@ fn main() {
             }
             "H" => {
                 showhelp();
+                let _ = io::stdout().flush();
             }
             "M" => {
                 println!("{}", input);
