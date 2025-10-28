@@ -130,7 +130,7 @@ impl VM {
             part_k1: center,
             part_ka: center,
             ptr_p: center,
-            ptr_op: center,
+            ptr_top: center,
             ptr_t: center,
             ptr_subtop: center,
             reg_e: center,
