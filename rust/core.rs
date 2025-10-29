@@ -110,13 +110,9 @@ impl VM {
             values[idx].val_binary = v;
             values[idx].val_trinary = 0;
 
-            let bin = crate::util::to_binary_string(v);
-            let tr = crate::util::to_balanced_ternary(v);
-            let non = crate::util::to_balanced_nonary(v);
-
-            values[idx].txt_binary = bin;
-            values[idx].txt_trinary = tr;
-            values[idx].txt_nonary = non;
+            values[idx].txt_binary = crate::util::to_binary_string(v);
+            values[idx].txt_trinary = crate::util::to_balanced_ternary(v);
+            values[idx].txt_nonary = crate::util::to_balanced_nonary(v);
             values[idx].txt_decimal = v.to_string();
 
             values[idx].is_zero = is_zero;
