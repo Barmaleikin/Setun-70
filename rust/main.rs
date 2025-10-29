@@ -410,7 +410,6 @@ fn main() {
             }
             "R" | "r" => {
                 vm.show_registers();
-                //print_columns(&items, 4, 12);
                 print!("> ");
                 let _ = io::stdout().flush();
             }
