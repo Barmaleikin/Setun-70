@@ -1,4 +1,5 @@
 use std::io::{self, Write};
+use std::cmp::max;
 use std::fmt;
 
 const VAL_HALF_RANGE: i16 = 364;
@@ -84,6 +85,10 @@ struct VM {
     reg_r: usize,
     reg_y: usize,
 
+    reg_h1: usize,
+    reg_h2: usize,
+    reg_h3: usize,
+
     m_state_running: bool,
     context: Context,
 
@@ -136,6 +141,9 @@ impl VM {
             reg_e: center,
             reg_r: center,
             reg_y: center,
+            reg_h1: center,
+            reg_h2: center,
+            reg_h3: center,
             m_state_running: false,
             context: Context::default(),
             ram_page: vec![0; PAGE_FULL_RANGE],
@@ -262,24 +270,27 @@ impl VM {
     }
 
     fn show_registers(&self) {
+
+        let pairs = [
+            ("  c : ", self.reg_c), ("  c1: ", self.part_c1), ("  ca: ", self.part_ca), ("  ch: ", self.part_ch),
+            ("  k : ", self.reg_k), ("  k1: ", self.part_k1), ("  ka: ", self.part_ka), (" ", usize::MAX),
+            ("  p : ", self.ptr_p), ("  T : ", self.ptr_top), ("  t : ", self.ptr_t), ("  S : ", self.ptr_subtop),
+            ("  e : ", self.reg_e), ("  R : ", self.reg_r), ("  Y : ", self.reg_y), (" ", usize::MAX),
+            ("  H1: ", self.reg_h1), ("  H2: ", self.reg_h2), ("  H3: ", self.reg_h3),
+        ];
+
+        let items: Vec<(String, String)> = pairs.iter()
+            .map(|&(lbl, idx)| {
+                if idx == usize::MAX {
+                    (" ".to_string(), " ".to_string())
+                } else {
+                    (lbl.to_string(), self.values[idx].txt_trinary.clone())
+                }
+            })
+            .collect();
+
         println!();
-        println!("  c : {}", self.values[self.reg_c].txt_trinary);
-        println!("  c1: {}", self.values[self.part_c1].txt_trinary);
-        println!("  ca: {}", self.values[self.part_ca].txt_trinary);
-        println!("  ch: {}", self.values[self.part_ch].txt_trinary);
-        println!();
-        println!("  k : {}", self.values[self.reg_k].txt_trinary);
-        println!("  k1: {}", self.values[self.part_k1].txt_trinary);
-        println!("  ka: {}", self.values[self.part_ka].txt_trinary);
-        println!();
-        println!("  p : {}", self.values[self.ptr_p].txt_trinary);
-        println!("  T : {}", self.values[self.ptr_top].txt_trinary);
-        println!("  t : {}", self.values[self.ptr_t].txt_trinary);
-        println!("  S : {}", self.values[self.ptr_subtop].txt_trinary);
-        println!();
-        println!("  e : {}", self.values[self.reg_e].txt_trinary);
-        println!("  R : {}", self.values[self.reg_r].txt_trinary);
-        println!("  Y : {}", self.values[self.reg_y].txt_trinary);
+        print_columns(&items, 4, 12);
         println!();
     }
 }
@@ -293,14 +304,65 @@ fn read_line_trimmed() -> Option<String> {
     }
 }
 
+fn print_columns(items: &[(String, String)], columns: usize, gap: usize) {
+    if columns == 0 { return; }
+    let n = items.len();
+    let rows = (n + columns - 1) / columns;
+
+    let mut grid: Vec<Vec<Option<usize>>> = vec![vec![None; rows]; columns];
+    for i in 0..n {
+        let col = i % columns;
+        let row = i / columns;
+        grid[col][row] = Some(i);
+    }
+
+    let mut col_widths = vec![0usize; columns];
+    for c in 0..columns {
+        let mut w = 0;
+        for r in 0..rows {
+            if let Some(i) = grid[c][r] {
+                let (ref h, ref v) = items[i];
+                w = max(w, h.len() + v.len());
+            }
+        }
+        col_widths[c] = w;
+    }
+
+    for r in 0..rows {
+        for c in 0..columns {
+            match grid[c][r] {
+                Some(i) => {
+                    let (ref h, ref v) = items[i];
+                    print!("{}{}", h, v);
+                    let printed = h.len() + v.len();
+                    if col_widths[c] > printed {
+                        print!("{}", " ".repeat(col_widths[c] - printed));
+                    }
+                    if c + 1 < columns {
+                        print!("{}", " ".repeat(gap));
+                    }
+                }
+                None => {
+                    if c + 1 < columns {
+                        print!("{}", " ".repeat(col_widths[c] + gap));
+                    }
+                }
+            }
+        }
+        println!();
+    }
+}
+
 fn showhelp() {
     println!(" - Available commands:");
+    println!("");
     println!("   [G] Run program");
     println!("   [H] Show command reference");
     println!("   [M] Show memory dump");
     println!("   [R] Show registers");
     println!("   [S] Step");
     println!("   [X] Exit");
+    println!("");
     print!("> ");
     let _ = io::stdout().flush();
 }
@@ -319,7 +381,7 @@ fn main() {
         };
 
         match input.as_str() {
-            "G" => {
+            "G" | "g" => {
                 println!("{}", input);
                 vm.m_state_running = true;
                 while vm.m_state_running {
@@ -331,11 +393,11 @@ fn main() {
                 print!("> ");
                 let _ = io::stdout().flush();
             }
-            "H" => {
+            "H" | "h" => {
                 showhelp();
                 let _ = io::stdout().flush();
             }
-            "M" => {
+            "M" | "m" => {
                 println!("{}", input);
                 println!(" RAM page center values:");
                 for i in 0..5 {
@@ -346,12 +408,13 @@ fn main() {
                 print!("> ");
                 let _ = io::stdout().flush();
             }
-            "R" => {
+            "R" | "r" => {
                 vm.show_registers();
+                //print_columns(&items, 4, 12);
                 print!("> ");
                 let _ = io::stdout().flush();
             }
-            "S" => {
+            "S" | "s" => {
                 println!();
                 let ko = vm.fetch();
                 let _ = vm.execute(ko);
@@ -360,7 +423,7 @@ fn main() {
                 print!("> ");
                 let _ = io::stdout().flush();
             }
-            "X" => break,
+            "X" | "x" => break,
             other => {
                 println!("Unrecognized command: {}", other);
                 print!("> ");
